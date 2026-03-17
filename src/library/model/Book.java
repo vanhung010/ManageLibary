@@ -9,7 +9,7 @@ private String title;
 private String type;
 private List<BookItem> listBook;
 private List<Author> author;
-public Book(String isbn, String title, String type, List<BookItem> listBook, List<Author> author) {
+public Book(String isbn, String title, String type) {
 	super();
 	this.isbn = isbn;
 	this.title = title;

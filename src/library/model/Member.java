@@ -68,15 +68,7 @@ public class Member extends Account {
 		return totalBooksCheckedOut < borrowingStrategy.getBorrrowingLimit();
 	}
 	
-	public List<BookItem> searchBookByName(String name) {
-		DataCenter db = DataCenter.getInstace();
-		return db.getListBook().stream().filter(bookitem -> bookitem.getBook().getTitle().equals(name)).collect(Collectors.toList());
-	}
-	public List<BookItem> searchBookByAuthorName(String name) {
-		DataCenter db = DataCenter.getInstace();
-		return db.getListBook().stream().filter(bookitem -> bookitem.getBook().getAuthor().stream().anyMatch(author -> author.getAuthorName().equals(name))).collect(Collectors.toList());
-				
-	}
+	
 	
 	public void viewProfile() {
 		System.out.println(this);

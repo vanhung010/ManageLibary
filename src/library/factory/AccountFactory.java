@@ -8,7 +8,7 @@ import library.strategy.TeacherStrategy;
 
 public class AccountFactory {
 
-	public static Member createMember(String accountID, String name, String email, String password, String membertype, String status, int totalBooksCheckedOut) {
+	public static Member createMember(String accountID, String name, String email, String password, String membertype,String status) {
 		 BorrowingStrategy borrowingStrategy = null;
 		switch(membertype.toUpperCase()) {
 		case "STUDENT":

@@ -2,9 +2,9 @@ package library.model;
 
 public class Fine {
 private String fineID;
-private int amount;
+private double amount;
 private boolean ispaid;
-public Fine(String fineID, int amount, boolean ispaid) {
+public Fine(String fineID, double amount, boolean ispaid) {
 	super();
 	this.fineID = fineID;
 	this.amount = amount;
@@ -29,8 +29,8 @@ public void setIspaid(boolean ispaid) {
 	this.ispaid = ispaid;
 }
 
-public int calculateAmount(int d) {
-	return d*5000;
+public int calculateAmount(double d) {
+	return (int) (d*5000);
 }
 public void markAsPaid() {
 	ispaid = true;

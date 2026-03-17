@@ -9,17 +9,18 @@ public class BookItem {
 	private String status;
 	private Book book;
 	
-	public Book getBook() {
-		return book;
-	}
-	public void setBook(Book book) {
-		this.book = book;
-	}
 	public BookItem(String barcode, String racklocation, String status, Book book) {
 		super();
 		this.barcode = barcode;
 		this.racklocation = racklocation;
 		this.status = status;
+		this.book = book;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
 		this.book = book;
 	}
 	public String getBarcode() {
@@ -39,6 +40,9 @@ public class BookItem {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getTitle() {
+		return book.getTitle();
 	}
 	
 }
