@@ -59,11 +59,11 @@ public class Librarain extends Account {
 	}
 	//cho doi tuong muon sach
 	public void issueBook(Member m, BookItem bi) {
-		if(!m.getStatus().equals("ACTIVE")) return;
+		if(!m.getStatus().equals("Active")) return;
 		if(!m.canBorrowMore()) return;
-		bi.setStatus("BORROW");
+		bi.setStatus("Borrowed");
 		m.setTotalBooksCheckedOut(m.getTotalBooksCheckedOut() +1);
-		LendingTransaction l = new LendingTransaction("123", m.getAccountID(), LocalDate.now(), LocalDate.now().plusDays(14), bi.getBarcode());
+		LendingTransaction l = new LendingTransaction("LT" + System.currentTimeMillis(), m.getAccountID(), LocalDate.now(), LocalDate.now().plusDays(14), bi.getBarcode());
 		m.getLending().add(l);
 		}
 	public void returnBook(BookItem b) {
@@ -74,7 +74,7 @@ public class Librarain extends Account {
 			}
 			index++;
 		}
-		DataCenter.getInstace().getListBook().get(index).setStatus("AVAIABLE");
+		DataCenter.getInstace().getListBook().get(index).setStatus("Available");
 	}
 	
 	public int collectFine(Fine f) {

@@ -24,3 +24,6 @@ bin/
 .metadata/
 .classpath
 .project
+.idea/
+out/
+ManageLibary.iml

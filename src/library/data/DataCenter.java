@@ -22,9 +22,10 @@ public class DataCenter {
 	
 	private DataCenter () {
 		this.listMember = new ArrayList<Member>();
-		
+
 		this.listBook = new ArrayList<BookItem>();
 		this.listLibrarain = new ArrayList<Librarain>();
+		initData(); // Khởi tạo dữ liệu mẫu
 	}
 	
 	public static DataCenter getInstace () {
@@ -51,6 +52,14 @@ public class DataCenter {
 
 	public void setListBook(List<BookItem> listBook) {
 		this.listBook = listBook;
+	}
+
+	public List<Librarain> getListLibrarain() {
+		return listLibrarain;
+	}
+
+	public void setListLibrarain(List<Librarain> listLibrarain) {
+		this.listLibrarain = listLibrarain;
 	}
 
 	private void initData() {

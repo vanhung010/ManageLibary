@@ -23,6 +23,8 @@ public class Member extends Account {
 		this.status = "Active";
 		this.totalBooksCheckedOut = 0;
 		this.borrowingStrategy = borrowingStrategy;
+		this.lending = new java.util.ArrayList<LendingTransaction>();
+		this.listReservation = new java.util.ArrayList<Reservation>();
 	}
 	
 	public String getMembertype() {
@@ -76,6 +78,7 @@ public class Member extends Account {
 	
 	public LendingTransaction findLending(String barcode) {
 		for(LendingTransaction lt : lending) {
+			//lt.getBarcodeBook().equals(barcode)
 			if(lt.getBarcodeBook().equals(barcode)) {
 				return lt;
 			}
@@ -96,12 +99,13 @@ public class Member extends Account {
 	}
 	
 	public void reserveBook(BookItem bi) {
-		if(!bi.getStatus().equals("AVAIBLE")) {
+		if(bi.getStatus().equals("Available")) {
+			System.out.println("Sách đang có sẵn, bạn có thể mượn trực tiếp!");
 			return;
 		}
-		Reservation re = new Reservation("123", LocalDate.now(), "PENDING");
+		Reservation re = new Reservation("RSV" + System.currentTimeMillis(), LocalDate.now(), "PENDING");
 		listReservation.add(re);
-		
+		bi.setStatus("Reserved");
 	}
 	
 	public int getBorrowLimit() {
