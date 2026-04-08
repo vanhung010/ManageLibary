@@ -16,25 +16,25 @@ public abstract class  Account {
 	public String getAccountID() {
 		return accountID;
 	}
-	public void setAccountID(String accountID) {
+	public void addAccountID(String accountID) {
 		this.accountID = accountID;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public void addName(String name) {
 		this.name = name;
 	}
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
+	public void addEmail(String email) {
 		this.email = email;
 	}
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public void addPassword(String password) {
 		this.password = password;
 	}
 

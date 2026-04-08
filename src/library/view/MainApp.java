@@ -64,21 +64,19 @@ public class MainApp {
     // Menu cho Member
     private static void showMemberMenu() {
         Member member = (Member) AuthService.getCurrentUser();
-        
-        System.out.println("\n========== MENU THÀNH VIÊN ==========");
-        System.out.println("Xin chào: " + member.getName());
-        System.out.println("1. Xem thông tin cá nhân");
-        System.out.println("2. Xem danh sách sách");
-        System.out.println("3. Xem sách đang mượn");
-        System.out.println("4. Xem lịch sử giao dịch");
-        System.out.println("5. Gia hạn sách");
-        System.out.println("6. Đặt trước sách");
-        System.out.println("7. Đăng xuất");
-        System.out.print("Chọn chức năng: ");
-        
+        System.out.println("\n========== MENU TH\u00c0NH VI\u00caN ==========");
+        System.out.println("Xin ch\u00e0o: " + member.getName());
+        System.out.println("1. Xem th\u00f4ng tin c\u00e1 nh\u00e2n");
+        System.out.println("2. Xem danh s\u00e1ch s\u00e1ch");
+        System.out.println("3. M\u01b0\u1ee3n s\u00e1ch");
+        System.out.println("4. Xem s\u00e1ch \u0111ang m\u01b0\u1ee3n");
+        System.out.println("5. Xem l\u1ecbch s\u1eed giao d\u1ecbch");
+        System.out.println("6. Gia h\u1ea1n s\u00e1ch");
+        System.out.println("7. \u0110\u1eb7t tr\u01b0\u1edbc s\u00e1ch");
+        System.out.println("8. \u0110\u0103ng xu\u1ea5t");
+        System.out.print("Ch\u1ecdn ch\u1ee9c n\u0103ng: ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // clear buffer
-        
         switch (choice) {
             case 1:
                 member.viewProfile();
@@ -87,22 +85,25 @@ public class MainApp {
                 viewBookList();
                 break;
             case 3:
-                viewMyBorrowedBooks(member);
+                borrowBook(member);
                 break;
             case 4:
-                viewMyTransactions(member);
+                viewMyBorrowedBooks(member);
                 break;
             case 5:
-                renewBook(member);
+                viewMyTransactions(member);
                 break;
             case 6:
-                reserveBook(member);
+                renewBook(member);
                 break;
             case 7:
+                reserveBook(member);
+                break;
+            case 8:
                 AuthService.logout();
                 break;
             default:
-                System.out.println("Lựa chọn không hợp lệ!");
+                System.out.println("L\u1ef1a ch\u1ecdn kh\u00f4ng h\u1ee3p l\u1ec7!");
         }
     }
     
@@ -257,6 +258,19 @@ public class MainApp {
         System.out.println("Đặt sách thành công!");
     }
 
+    // Muon sach
+    private static void borrowBook(Member member) {
+        System.out.println("\n========== M\u01af\u1ee2N S\u00c1CH ==========");
+        viewBookList();
+        System.out.print("Nh\u1eadp barcode s\u00e1ch mu\u1ed1n m\u01b0\u1ee3n: ");
+        String barcode = scanner.nextLine();
+        BookItem book = findBookByBarcode(barcode);
+        if (book == null) {
+            System.out.println("Kh\u00f4ng t\u00ecm th\u1ea5y s\u00e1ch v\u1edbi barcode: " + barcode);
+            return;
+        }
+        issueBookToMember(member, book, "M\u01b0\u1ee3n s\u00e1ch th\u00e0nh c\u00f4ng!");
+    }
     // ========== LIBRARIAN FUNCTIONS ==========
 
     // Quản lý sách
@@ -437,36 +451,26 @@ public class MainApp {
         });
     }
 
-    // Cho mượn sách
+    // Cho muon sach
     private static void issueBook(Librarain librarian) {
-        System.out.println("\n========== CHO MƯỢN SÁCH ==========");
+        System.out.println("\n========== CHO M\u01af\u1ee2N S\u00c1CH ==========");
         viewMemberList();
-        System.out.print("Nhập ID thành viên: ");
+        System.out.print("Nh\u1eadp ID th\u00e0nh vi\u00ean: ");
         String memberId = scanner.nextLine();
-
         Member member = findMemberById(memberId);
         if (member == null) {
-            System.out.println("Không tìm thấy thành viên với ID: " + memberId);
+            System.out.println("Kh\u00f4ng t\u00ecm th\u1ea5y th\u00e0nh vi\u00ean v\u1edbi ID: " + memberId);
             return;
         }
-
         viewBookList();
-        System.out.print("Nhập barcode sách: ");
+        System.out.print("Nh\u1eadp barcode s\u00e1ch: ");
         String barcode = scanner.nextLine();
-
         BookItem book = findBookByBarcode(barcode);
         if (book == null) {
-            System.out.println("Không tìm thấy sách với barcode: " + barcode);
+            System.out.println("Kh\u00f4ng t\u00ecm th\u1ea5y s\u00e1ch v\u1edbi barcode: " + barcode);
             return;
         }
-
-        if (!book.getStatus().equals("Available")) {
-            System.out.println("Sách không có sẵn để mượn!");
-            return;
-        }
-
-        librarian.issueBook(member, book);
-        System.out.println("Cho mượn sách thành công!");
+        issueBookToMember(member, book, "Cho m\u01b0\u1ee3n s\u00e1ch th\u00e0nh c\u00f4ng!");
     }
 
     // Thu hồi sách
@@ -585,5 +589,26 @@ public class MainApp {
             }
         }
         return null;
+    }
+
+    private static void issueBookToMember(Member member, BookItem book, String successMessage) {
+        if (!"Active".equalsIgnoreCase(member.getStatus())) {
+            System.out.println("T\u00e0i kho\u1ea3n th\u00e0nh vi\u00ean kh\u00f4ng \u0111\u1ee7 \u0111i\u1ec1u ki\u1ec7n \u0111\u1ec3 m\u01b0\u1ee3n s\u00e1ch.");
+            return;
+        }
+
+        if (!"Available".equalsIgnoreCase(book.getStatus())) {
+            System.out.println("S\u00e1ch kh\u00f4ng c\u00f3 s\u1eb5n \u0111\u1ec3 m\u01b0\u1ee3n!");
+            return;
+        }
+
+        if (!member.canBorrowMore()) {
+            System.out.println("B\u1ea1n \u0111\u00e3 \u0111\u1ea1t gi\u1edbi h\u1ea1n s\u1ed1 l\u01b0\u1ee3ng s\u00e1ch \u0111\u01b0\u1ee3c m\u01b0\u1ee3n.");
+            return;
+        }
+
+        Librarain issuer = new Librarain("SYSTEM", "SYSTEM", "", "", "SYSTEM");
+        issuer.issueBook(member, book);
+        System.out.println(successMessage);
     }
 }
